@@ -288,10 +288,10 @@
             background: var(--theme-teal);
             color: #fff;
         }
-        .btn-download:hover { 
-            background: var(--theme-teal-hover); 
-            color: white; 
-            transform: translateY(-2px); 
+        .btn-download:hover {
+            background: var(--theme-teal-hover);
+            color: white;
+            transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(3, 184, 165, 0.3);
         }
 
@@ -300,10 +300,10 @@
             background: var(--theme-navy);
             color: #fff;
         }
-        .btn-download-pdf:hover { 
-            background: var(--theme-navy-hover); 
-            color: white; 
-            transform: translateY(-2px); 
+        .btn-download-pdf:hover {
+            background: var(--theme-navy-hover);
+            color: white;
+            transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(29, 80, 123, 0.3);
         }
 
@@ -432,7 +432,7 @@
         {{-- ── Form ── --}}
         <form id="doctorForm" method="POST" action="{{ route('doctor.store') }}" enctype="multipart/form-data">
             @csrf
-            
+
             <!-- Grid system ke liye row wrapper -->
             <div class="row">
 
@@ -444,7 +444,7 @@
 
                 <div class="col-md-2 mb-2 position-relative">
                     <label>Prefix <span style="color:var(--error-red)">*</span></label>
-                    <input type="text" class="form-control" id="doctor_prefix" name="doctor_prefix" value="{{ old('doctor_prefix', 'Dr.') }}" placeholder="Dr.">
+                    <input type="text" class="form-control" id="doctor_prefix" name="doctor_prefix" value="{{ old('doctor_prefix', 'Dr.') }}" placeholder="Dr." readonly>
                 </div>
 
                 <div class="col-md-6 mb-2 position-relative">
