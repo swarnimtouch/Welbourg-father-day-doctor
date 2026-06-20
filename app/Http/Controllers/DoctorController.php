@@ -19,11 +19,14 @@ class DoctorController extends Controller
     {
         $data = $request->validate([
             'employee_code' => ['required', 'string', 'max:255'],
+            'doctor_prefix' => ['required', 'string', 'max:20'],
             'doctor_name' => ['required', 'string', 'max:255'],
             'cropped_image' => ['required', 'string'],
         ]);
 
-        $baseFolder = 'Welbourg-sakhi-day';
+        $displayName = trim($data['doctor_prefix'] . ' ' . $data['doctor_name']);
+
+        $baseFolder = 'welbourg-father-day-doctor';
         $slug = Str::slug($data['doctor_name']) ?: 'employee';
         $timestamp = now()->format('YmdHisv');
         $photoFile = $slug . '_' . $timestamp . '.png';
@@ -82,7 +85,7 @@ class DoctorController extends Controller
         $verticalPadding = 16;
 
         while ($fontSize > 14) {
-            $textBox = imagettfbbox($fontSize, 0, $font, $data['doctor_name']);
+            $textBox = imagettfbbox($fontSize, 0, $font, $displayName);
             $textWidth = $textBox[2] - $textBox[0];
             $textHeight = $textBox[1] - $textBox[7];
 
@@ -95,14 +98,14 @@ class DoctorController extends Controller
             $fontSize--;
         }
 
-        $textBox = imagettfbbox($fontSize, 0, $font, $data['doctor_name']);
+        $textBox = imagettfbbox($fontSize, 0, $font, $displayName);
         $textWidth = $textBox[2] - $textBox[0];
         $textHeight = $textBox[1] - $textBox[7];
         $nameX = (int) round($nameBoxX + (($nameBoxWidth - $textWidth) / 2) - $textBox[0]);
         $nameY = (int) round($nameBoxY + (($nameBoxHeight - $textHeight) / 2) - $textBox[7]);
 
         $nameColor = imagecolorallocate($banner, 21, 73, 109);
-        imagettftext($banner, $fontSize, 0, $nameX, $nameY, $nameColor, $font, $data['doctor_name']);
+        imagettftext($banner, $fontSize, 0, $nameX, $nameY, $nameColor, $font, $displayName);
 
         ob_start();
         imagepng($banner, null, 0);
@@ -120,12 +123,12 @@ class DoctorController extends Controller
 
         Doctor::create([
             'employee_code' => $data['employee_code'],
+            'doctor_prefix' => $data['doctor_prefix'],
             'doctor_name' => $data['doctor_name'],
             'doctor_photo' => $photoPath,
             'doctor_banner_path' => $bannerPath,
             'employee_name' => null,
             'employee_hq' => null,
-            'doctor_prefix' => null,
             'doctor_qualification' => null,
             'doctor_phone' => null,
         ]);
@@ -137,7 +140,7 @@ class DoctorController extends Controller
 
     public function downloadPdf($file)
     {
-        $path = 'Welbourg-sakhi-day/banners/' . $file;
+        $path = 'welbourg-father-day-doctor/banners/' . $file;
         $base64 = base64_encode(Storage::disk('s3')->get($path));
         $html = '<div style="text-align:center;"><img src="data:image/png;base64,' . $base64 . '" style="width:100%;"></div>';
 

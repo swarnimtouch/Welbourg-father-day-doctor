@@ -437,9 +437,14 @@
             <div class="row">
 
                 <!-- Required employee details -->
-                <div class="col-md-6 mb-2 position-relative">
+                <div class="col-md-4 mb-2 position-relative">
                     <label>Employee Code <span style="color:var(--error-red)">*</span></label>
                     <input type="text" class="form-control" id="employee_code" name="employee_code" value="{{ old('employee_code') }}" placeholder="Enter employee code">
+                </div>
+
+                <div class="col-md-2 mb-2 position-relative">
+                    <label>Prefix <span style="color:var(--error-red)">*</span></label>
+                    <input type="text" class="form-control" id="doctor_prefix" name="doctor_prefix" value="{{ old('doctor_prefix', 'Dr.') }}" placeholder="Dr.">
                 </div>
 
                 <div class="col-md-6 mb-2 position-relative">
@@ -679,11 +684,13 @@
             },
             rules: {
                 employee_code: { required: true },
+                doctor_prefix: { required: true, maxlength: 20 },
                 doctor_name: { required: true },
                 cropped_image: { required: true } /* 🔴 NAYA ADD: Photo field ab mandatory hai */
             },
             messages: {
                 employee_code: "Employee code is required.",
+                doctor_prefix: "Prefix is required.",
                 doctor_name: "Name is required.",
                 cropped_image: "Photo is required." /* 🔴 NAYA ADD */
             },

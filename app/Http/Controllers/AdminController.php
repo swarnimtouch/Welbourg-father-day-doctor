@@ -70,6 +70,7 @@ class AdminController extends Controller
             $q->where(function ($query) use ($request) {
 
                 $query->where('doctor_name', 'like', '%' . $request->search . '%')
+                    ->orWhere('doctor_prefix', 'like', '%' . $request->search . '%')
                     ->orWhere('employee_code', 'like', '%' . $request->search . '%');
 
             });
@@ -148,8 +149,6 @@ class AdminController extends Controller
     {
         ini_set('memory_limit', '512M');
         set_time_limit(0); // unlimited time
-
-        $baseFolder = 'Welbourg-sakhi-day/banners/';
 
         // ✅ DB se paths lo (S3 list call slow hoti hai)
         $doctors = Doctor::whereNotNull('doctor_banner_path')->pluck('doctor_banner_path');

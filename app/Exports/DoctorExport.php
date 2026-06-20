@@ -20,6 +20,7 @@ class DoctorExport implements FromCollection, WithHeadings
         return Doctor::when($this->search, function ($q) {
             $q->where(function ($query) {
                 $query->where('doctor_name', 'like', '%' . $this->search . '%')
+                    ->orWhere('doctor_prefix', 'like', '%' . $this->search . '%')
                     ->orWhere('employee_code', 'like', '%' . $this->search . '%');
             });
         })
@@ -28,7 +29,7 @@ class DoctorExport implements FromCollection, WithHeadings
 
                 return [
                     'employee_code'        => $doctor->employee_code,
-                    'name' => $doctor->doctor_name,
+                    'name' => $doctor->display_name,
                     'photo_url' => $doctor->doctor_photo
                         ? Storage::disk('s3')->url($doctor->doctor_photo)
                         : '',
